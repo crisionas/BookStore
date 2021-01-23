@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DomainLayer.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20210123085027_DbInit")]
+    [Migration("20210123103021_DbInit")]
     partial class DbInit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,8 +46,10 @@ namespace DomainLayer.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int?>("PublisherId1")
-                        .HasColumnType("int");
+                    b.Property<string>("Publisher")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -57,8 +59,6 @@ namespace DomainLayer.Migrations
                     b.HasKey("BookId");
 
                     b.HasIndex("CategoryId1");
-
-                    b.HasIndex("PublisherId1");
 
                     b.ToTable("Books");
                 });
@@ -78,23 +78,6 @@ namespace DomainLayer.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("DomainLayer.Entities.Publishers", b =>
-                {
-                    b.Property<int>("PublisherId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
-
-                    b.HasKey("PublisherId");
-
-                    b.ToTable("Publishers");
                 });
 
             modelBuilder.Entity("DomainLayer.Entities.Purchases", b =>
@@ -170,13 +153,7 @@ namespace DomainLayer.Migrations
                         .WithMany()
                         .HasForeignKey("CategoryId1");
 
-                    b.HasOne("DomainLayer.Entities.Publishers", "PublisherId")
-                        .WithMany()
-                        .HasForeignKey("PublisherId1");
-
                     b.Navigation("CategoryId");
-
-                    b.Navigation("PublisherId");
                 });
 
             modelBuilder.Entity("DomainLayer.Entities.Purchases", b =>

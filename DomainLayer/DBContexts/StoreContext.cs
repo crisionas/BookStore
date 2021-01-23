@@ -18,7 +18,6 @@ namespace DomainLayer.DBContexts
 
         public virtual DbSet<Books> Books { get; set; }
         public virtual DbSet<Categories> Categories { get; set; }
-        public virtual DbSet<Publishers> Publishers { get; set; }
         public virtual DbSet<Purchases> Purchases { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Users> Users { get; set; }

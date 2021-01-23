@@ -21,19 +21,6 @@ namespace DomainLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Publishers",
-                columns: table => new
-                {
-                    PublisherId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Publishers", x => x.PublisherId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
@@ -55,7 +42,7 @@ namespace DomainLayer.Migrations
                     Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CategoryId1 = table.Column<int>(type: "int", nullable: true),
                     Author = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    PublisherId1 = table.Column<int>(type: "int", nullable: true),
+                    Publisher = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: true),
                     Price = table.Column<double>(type: "float", nullable: false),
                     ImageSrc1 = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
@@ -68,12 +55,6 @@ namespace DomainLayer.Migrations
                         column: x => x.CategoryId1,
                         principalTable: "Categories",
                         principalColumn: "CategoryId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Books_Publishers_PublisherId1",
-                        column: x => x.PublisherId1,
-                        principalTable: "Publishers",
-                        principalColumn: "PublisherId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -130,11 +111,6 @@ namespace DomainLayer.Migrations
                 column: "CategoryId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Books_PublisherId1",
-                table: "Books",
-                column: "PublisherId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Purchases_BookId1",
                 table: "Purchases",
                 column: "BookId1");
@@ -163,9 +139,6 @@ namespace DomainLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
-
-            migrationBuilder.DropTable(
-                name: "Publishers");
 
             migrationBuilder.DropTable(
                 name: "Roles");

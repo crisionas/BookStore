@@ -24,7 +24,8 @@ namespace DomainLayer.Entities
         public string Author { get; set; }
 
         [Required]
-        public Publishers PublisherId { get; set; }
+        [StringLength(80)]
+        public string Publisher { get; set; }
 
         [StringLength(3000)]
         public string Description { get; set; }
