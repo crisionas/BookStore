@@ -30,10 +30,21 @@ namespace BookStore.Controllers.Tests
                 Publisher = "X",
                 Price = 100
             };
-            var result =await  _controller.AddBook(book);
+            var result = await _controller.AddBook(book);
             Assert.IsTrue(result.Result);
         }
 
+        [TestMethod()]
+        public async Task BuyBookTest()
+        {
+            var book = new BuyBook
+            {
+                Username = "Cristian",
+                BookId = "1"
+            };
 
+            var result = await _controller.BuyBook(book);
+            Assert.IsTrue(result.Result);
+        }
     }
 }
