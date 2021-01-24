@@ -3,16 +3,25 @@ using BookStore.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.Controllers.Tests
 {
     [TestClass()]
     public class BookControllerTests
     {
-        [TestMethod()]
-        public void GetAllBooksTest()
+        private BookController _controller;
+
+        public BookControllerTests()
         {
-            Assert.Fail();
+            _controller = new BookController();
+        }
+
+        [TestMethod()]
+        public async Task GetAllBooksTest()
+        {
+            var response = await _controller.GetAllBooks();
+            Assert.IsNotNull(response);
         }
     }
 }

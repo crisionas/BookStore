@@ -24,7 +24,7 @@ namespace BookStore.Controllers.Tests
         {
             var book = new BooksData
             {
-                Title = "Designed for Digital",
+                Title = "Designed for Digital4",
                 Category = "Tech",
                 Author = "Jeanne W. Ross",
                 Publisher = "X",
