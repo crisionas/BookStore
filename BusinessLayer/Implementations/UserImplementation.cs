@@ -33,7 +33,8 @@ namespace BusinessLayer.Implementations
                     {
                         var category = db.Categories.FirstOrDefault(m => m.Name == data.Category);
                         var author = db.Authors.FirstOrDefault(m => m.Name == data.Author);
-                        if (author != null || category!=null)
+                        var bookFind = db.Books.Where(m => m.Title == data.Title && m.AuthorId == author.AuthorId).FirstOrDefault();
+                        if (bookFind==null)
                         {
                             var book = new Books
                             {
@@ -57,7 +58,7 @@ namespace BusinessLayer.Implementations
                             return new ResultsResponse
                             {
                                 Result = false,
-                                Message = "The category or author does not exist."
+                                Message = "The book already exists."
                             };
                     }
                     
