@@ -23,5 +23,12 @@ namespace BookStore.Controllers.Tests
             var response = await _controller.GetAllBooks();
             Assert.IsNotNull(response);
         }
+
+        [TestMethod()]
+        public async Task GetAuthorsTest()
+        {
+            var response = await _controller.GetAuthors();
+            Assert.IsNotNull(response);
+        }
     }
 }
