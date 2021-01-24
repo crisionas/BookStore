@@ -10,7 +10,7 @@ using DomainLayer.DTOModels;
 
 namespace BookStore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class BookController : ControllerBase
     {
@@ -21,9 +21,19 @@ namespace BookStore.Controllers
             book = bl.BooksBL();
         }
         [HttpGet]
+        [ActionName("Books")]
         public async Task<List<BooksData>> GetAllBooks()
         {
             return await book.GetAllBooks();
         }
+
+        [HttpGet]
+        [ActionName("Authors")]
+        public async Task<List<AuthorsData>> GetAuthors()
+        {
+            return await book.GetAuthors();
+        }
+
+
     }
 }

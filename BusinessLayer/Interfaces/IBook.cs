@@ -9,5 +9,7 @@ namespace BusinessLayer.Interfaces
     public interface IBook
     {
         Task<List<BooksData>> GetAllBooks();
+        Task<List<AuthorsData>> GetAuthors();
+
     }
 }

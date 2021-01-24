@@ -20,8 +20,7 @@ namespace DomainLayer.Entities
         public Categories CategoryId { get; set; }
 
         [Required]
-        [StringLength(50)]
-        public string Author { get; set; }
+        public Authors AuthorId { get; set; }
 
         [Required]
         [StringLength(80)]

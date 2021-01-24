@@ -14,5 +14,10 @@ namespace BusinessLayer.Levels
         {
             return GetBooksAction();
         }
+
+        public Task<List<AuthorsData>> GetAuthors()
+        {
+            return GetAuthorsAction();
+        }
     }
 }

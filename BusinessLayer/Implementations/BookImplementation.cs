@@ -25,21 +25,25 @@ namespace BusinessLayer.Implementations
                         {
                             var list = new List<BooksData>();
                             var result = db.Books.Join(db.Categories, t => t.CategoryId, C => C,
-                                (t, C) => new {t,C}).ToList();
+                                (t, C) => new {t,C})
+                                .Join(db.Authors, a=>a.t.AuthorId, c2=>c2,(a,c2)=>new{a,c2})
+                                .ToList();
                             foreach (var item in result)
                             {
-                                var book = new BooksData();
-                                book.BookId = item.t.BookId;
-                                book.Title = item.t.Title;
-                                book.Category = item.C.Name;
-                                book.Author = item.t.Author;
-                                book.Description = item.t.Description;
-                                book.ImageSrc1 = item.t.ImageSrc1;
-                                book.Price = item.t.Price;
-                                book.Publisher = item.t.Publisher;
+                                var book = new BooksData
+                                {
+                                    BookId = item.a.t.BookId,
+                                    Title = item.a.t.Title,
+                                    Category = item.a.C.Name,
+                                    Author = item.c2.Name,
+                                    Description = item.a.t.Description,
+                                    ImageSrc1 = item.a.t.ImageSrc1,
+                                    Price = item.a.t.Price,
+                                    Publisher = item.a.t.Publisher
+                                };
                                 list.Add(book);
                             }
-                             return list;
+                            return list;
                         }
                     }
                     catch(Exception e)
@@ -48,6 +52,29 @@ namespace BusinessLayer.Implementations
                         return null;
                     }
                 });
+        }
+
+        internal async Task<List<AuthorsData>> GetAuthorsAction()
+        {
+            return await Task.Run(() =>
+            {
+                try
+                {
+                    using (var db=new StoreContext())
+                    {
+                        var query = db.Authors.ToList();
+                        var config = new MapperConfiguration(cfg =>
+                            cfg.CreateMap<Authors, AuthorsData>());
+                        var mapper = new Mapper(config);
+                       return mapper.Map<List<Authors>,List<AuthorsData>>(query);
+                    }
+                }
+                catch
+                {
+                    //Logging implementation
+                    return null;
+                }
+            });
         }
     }
 }
