@@ -13,14 +13,14 @@ namespace DomainLayer.Entities
         public int BookId { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(1000)]
         public string Title { get; set; }
 
         [Required]
-        public Categories CategoryId { get; set; }
+        public int CategoryId { get; set; }
 
         [Required]
-        public Authors AuthorId { get; set; }
+        public int AuthorId { get; set; }
 
         [Required]
         [StringLength(80)]
@@ -33,5 +33,11 @@ namespace DomainLayer.Entities
         public double Price { get; set; }
         
         public byte[] ImageSrc1 { get; set; }
+
+        public Categories Category { get; set; }
+        
+        public Authors Author { get; set; }
+
+        public ICollection<Purchases> Purchases { get; set; }
     }
 }

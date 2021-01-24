@@ -15,11 +15,17 @@ namespace BookStore.Controllers
     public class BookController : ControllerBase
     {
         private IBook book;
+
         public BookController()
         {
             var bl = new BusinessManager();
             book = bl.BooksBL();
         }
+
+        /// <summary>
+        /// Get all books from DB
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [ActionName("Books")]
         public async Task<List<BooksData>> GetAllBooks()
@@ -27,6 +33,10 @@ namespace BookStore.Controllers
             return await book.GetAllBooks();
         }
 
+        /// <summary>
+        /// Get all authors from DB
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [ActionName("Authors")]
         public async Task<List<AuthorsData>> GetAuthors()

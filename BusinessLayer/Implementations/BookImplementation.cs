@@ -14,6 +14,10 @@ namespace BusinessLayer.Implementations
 {
     public class BookImplementation
     {
+        /// <summary>
+        /// Get all books implementation
+        /// </summary>
+        /// <returns></returns>
         internal async Task<List<BooksData>> GetBooksAction()
         {
 
@@ -24,22 +28,22 @@ namespace BusinessLayer.Implementations
                         using (var db = new StoreContext())
                         {
                             var list = new List<BooksData>();
-                            var result = db.Books.Join(db.Categories, t => t.CategoryId, C => C,
-                                (t, C) => new {t,C})
-                                .Join(db.Authors, a=>a.t.AuthorId, c2=>c2,(a,c2)=>new{a,c2})
-                                .ToList();
+                            var result = db.Books.Join(db.Categories, t => t.CategoryId, c => c.CategoryId, (t, c) => new {t,c})
+                                .Join(db.Authors,d=>d.t.CategoryId,c=>c.AuthorId,(d,c)=>new{d,c}).ToList();
+
+
                             foreach (var item in result)
                             {
                                 var book = new BooksData
                                 {
-                                    BookId = item.a.t.BookId,
-                                    Title = item.a.t.Title,
-                                    Category = item.a.C.Name,
-                                    Author = item.c2.Name,
-                                    Description = item.a.t.Description,
-                                    ImageSrc1 = item.a.t.ImageSrc1,
-                                    Price = item.a.t.Price,
-                                    Publisher = item.a.t.Publisher
+                                    BookId = item.d.t.BookId,
+                                    Title = item.d.t.Title,
+                                    Category = item.d.c.Name,
+                                    Author = item.c.Name,
+                                    Description = item.d.t.Description,
+                                    ImageSrc1 = item.d.t.ImageSrc1,
+                                    Price = item.d.t.Price,
+                                    Publisher = item.d.t.Publisher
                                 };
                                 list.Add(book);
                             }
@@ -54,6 +58,10 @@ namespace BusinessLayer.Implementations
                 });
         }
 
+        /// <summary>
+        /// Get all authors implementation
+        /// </summary>
+        /// <returns></returns>
         internal async Task<List<AuthorsData>> GetAuthorsAction()
         {
             return await Task.Run(() =>

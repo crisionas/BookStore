@@ -14,5 +14,10 @@ namespace BusinessLayer.Levels
         {
             return await AddBookAction(data);
         }
+
+        public async Task<ResultsResponse> BuyBook(BuyBook data)
+        {
+            return await BuyBookAction(data);
+        }
     }
 }

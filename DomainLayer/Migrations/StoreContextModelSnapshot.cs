@@ -21,9 +21,10 @@ namespace DomainLayer.Migrations
 
             modelBuilder.Entity("DomainLayer.Entities.Authors", b =>
                 {
-                    b.Property<string>("AuthorId")
+                    b.Property<int>("AuthorId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -42,10 +43,10 @@ namespace DomainLayer.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("AuthorId1")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("CategoryId1")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -65,14 +66,14 @@ namespace DomainLayer.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.HasKey("BookId");
 
-                    b.HasIndex("AuthorId1");
+                    b.HasIndex("AuthorId");
 
-                    b.HasIndex("CategoryId1");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Books");
                 });
@@ -96,39 +97,27 @@ namespace DomainLayer.Migrations
 
             modelBuilder.Entity("DomainLayer.Entities.Purchases", b =>
                 {
-                    b.Property<string>("PurchaseId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("BookId1")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId1")
-                        .HasColumnType("int");
-
-                    b.HasKey("PurchaseId");
-
-                    b.HasIndex("BookId1");
-
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("Purchases");
-                });
-
-            modelBuilder.Entity("DomainLayer.Entities.Roles", b =>
-                {
-                    b.Property<int>("RoleId")
+                    b.Property<int>("PurchaseId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
 
-                    b.HasKey("RoleId");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
-                    b.ToTable("Roles");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PurchaseId");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Purchases");
                 });
 
             modelBuilder.Entity("DomainLayer.Entities.Users", b =>
@@ -151,53 +140,72 @@ namespace DomainLayer.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("RoleId1")
-                        .HasColumnType("int");
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("UserId");
-
-                    b.HasIndex("RoleId1");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("DomainLayer.Entities.Books", b =>
                 {
-                    b.HasOne("DomainLayer.Entities.Authors", "AuthorId")
-                        .WithMany()
-                        .HasForeignKey("AuthorId1");
+                    b.HasOne("DomainLayer.Entities.Authors", "Author")
+                        .WithMany("Books")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("DomainLayer.Entities.Categories", "CategoryId")
-                        .WithMany()
-                        .HasForeignKey("CategoryId1");
+                    b.HasOne("DomainLayer.Entities.Categories", "Category")
+                        .WithMany("Books")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("AuthorId");
+                    b.Navigation("Author");
 
-                    b.Navigation("CategoryId");
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("DomainLayer.Entities.Purchases", b =>
                 {
-                    b.HasOne("DomainLayer.Entities.Books", "BookId")
-                        .WithMany()
-                        .HasForeignKey("BookId1");
+                    b.HasOne("DomainLayer.Entities.Books", "Book")
+                        .WithMany("Purchases")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("DomainLayer.Entities.Users", "UserId")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
+                    b.HasOne("DomainLayer.Entities.Users", "User")
+                        .WithMany("Purchases")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("BookId");
+                    b.Navigation("Book");
 
-                    b.Navigation("UserId");
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DomainLayer.Entities.Authors", b =>
+                {
+                    b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("DomainLayer.Entities.Books", b =>
+                {
+                    b.Navigation("Purchases");
+                });
+
+            modelBuilder.Entity("DomainLayer.Entities.Categories", b =>
+                {
+                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("DomainLayer.Entities.Users", b =>
                 {
-                    b.HasOne("DomainLayer.Entities.Roles", "RoleId")
-                        .WithMany()
-                        .HasForeignKey("RoleId1");
-
-                    b.Navigation("RoleId");
+                    b.Navigation("Purchases");
                 });
 #pragma warning restore 612, 618
         }

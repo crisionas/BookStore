@@ -10,10 +10,12 @@ namespace DomainLayer.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string AuthorId { get; set; }
+        public int AuthorId { get; set; }
 
         [Required]
         [StringLength(50)]
         public string Name { get; set; }
+
+        public ICollection<Books> Books { get; set; }
     }
 }

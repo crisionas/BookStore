@@ -15,6 +15,8 @@ namespace DomainLayer.Entities
         [Required]
         [StringLength(80)]
         public string Name { get; set; }
+
+        public ICollection<Books> Books { get; set; }
         
     }
 }

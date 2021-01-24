@@ -20,7 +20,6 @@ namespace DomainLayer.DBContexts
         public virtual DbSet<Categories> Categories { get; set; }
         public virtual DbSet<Authors> Authors { get; set; }
         public virtual DbSet<Purchases> Purchases { get; set; }
-        public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -29,6 +28,23 @@ namespace DomainLayer.DBContexts
             {
                 optionsBuilder.UseSqlServer("Server=localhost;Database=BookStore;Trusted_Connection=True;");
             }
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<Categories>()
+                .HasMany<Books>(ad => ad.Books);
+
+            modelBuilder.Entity<Authors>()
+                .HasMany<Books>(ad => ad.Books);
+
+            modelBuilder.Entity<Books>()
+                .HasMany<Purchases>(ad => ad.Purchases);
+
+            modelBuilder.Entity<Users>()
+                .HasMany<Purchases>(ad => ad.Purchases);
+
+
         }
     }
 }

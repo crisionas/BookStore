@@ -22,11 +22,28 @@ namespace BookStore.Controllers
             user = bl.UserBL();
         }
 
+        /// <summary>
+        /// AddBook Post method
+        /// </summary>
+        /// <param name="data">Model that is receiving from UI</param>
+        /// <returns></returns>
         [HttpPost]
         [ActionName("AddBook")]
         public async Task<ResultsResponse> AddBook(BooksData data)
         {
             return await user.AddBook(data);
+        }
+
+        /// <summary>
+        /// BuyBook Post Method
+        /// </summary>
+        /// <param name="data">Model that is receiving from UI</param>
+        /// <returns></returns>
+        [HttpPost]
+        [ActionName("BuyBook")]
+        public async Task<ResultsResponse> BuyBook(BuyBook data)
+        {
+            return await user.BuyBook(data);
         }
 
     }
