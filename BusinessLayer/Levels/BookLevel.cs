@@ -10,14 +10,14 @@ namespace BusinessLayer.Levels
 {
     public class BookLevel : BookImplementation, IBook
     {
-        public Task<List<BooksData>> GetAllBooks()
+        public async Task<List<BooksData>> GetAllBooks()
         {
-            return GetBooksAction();
+            return await GetBooksAction();
         }
 
-        public Task<List<AuthorsData>> GetAuthors()
+        public async Task<List<AuthorsData>> GetAuthors()
         {
-            return GetAuthorsAction();
+            return await GetAuthorsAction();
         }
     }
 }

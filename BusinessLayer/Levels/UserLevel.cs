@@ -10,6 +10,9 @@ namespace BusinessLayer.Levels
 {
     class UserLevel:UserImplementation,IUser
     {
-
+        public async Task<ResultsResponse> AddBook(BooksData data)
+        {
+            return await AddBookAction(data);
+        }
     }
 }

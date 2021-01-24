@@ -46,7 +46,7 @@ namespace BusinessLayer.Implementations
                             return list;
                         }
                     }
-                    catch(Exception e)
+                    catch
                     {
                         //Logging method
                         return null;

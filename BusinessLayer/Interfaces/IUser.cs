@@ -8,5 +8,6 @@ namespace BusinessLayer.Interfaces
 {
     public interface IUser
     {
+        Task<ResultsResponse> AddBook(BooksData data);
     }
 }

@@ -12,5 +12,10 @@ namespace BusinessLayer
         {
             return new BookLevel();
         }
+
+        public IUser UserBL()
+        {
+            return new UserLevel();
+        }
     }
 }
